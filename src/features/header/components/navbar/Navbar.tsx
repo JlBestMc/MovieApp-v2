@@ -1,129 +1,182 @@
-import Button from "../../../../components/Button/Button";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../../auth/context/AuthContextBase";
-import { auth } from "../../../../auth/firebase";
-import { signOut } from "firebase/auth";
+import { useState, useEffect } from "react";
 
 interface NavbarProps {
   logo: string;
-  bgColor?: string;
-  aStyles?: string;
-  borderColor?: string;
-  variantButton?:
-    | "primary"
-    | "secondary"
-    | "tertiary"
-    | "quaternary"
-    | "hero";
-  mode?: "default" | "hero";
 }
 
-export default function Navbar({
-  logo,
-  bgColor,
-  aStyles,
-  borderColor,
-  variantButton,
-  mode = "default",
-}: NavbarProps) {
+export default function Navbar({ logo }: NavbarProps) {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const [open, setOpen] = useState(false);
 
-  const handleLogout = async () => {
-    await signOut(auth);
-  };
+  // Disable scroll when mobile menu open
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
-  // Shared link button styling for hero mode
   const heroLinkBase =
     "relative group uppercase tracking-wider font-medium transition-colors";
   const heroUnderline =
     "absolute left-0 -bottom-1 h-0.5 w-0 bg-white transition-all duration-300 group-hover:w-full";
 
-  if (mode === "hero") {
-    return (
-      <nav className="fixed top-0 left-0 w-full z-30 text-white font-medium tracking-wide backdrop-blur-sm ">
-        <div className="relative w-full max-w-7xl mx-auto flex items-center py-7 px-8 md:px-16">
-          {/* Left group */}
-            <div className="flex items-center justify-between gap-16 lg:gap-24 text-[11px] sm:text-xs md:text-sm lg:text-base">
-              <button
-                onClick={() => navigate("/journey")}
-                className={heroLinkBase}
-              >
-                <span className="group-hover:text-white/80">JOURNEY</span>
-                <span className={heroUnderline} />
-              </button>
-              <button
-                onClick={() => navigate("/stories")}
-                className={`${heroLinkBase} hidden sm:inline-block`}
-              >
-                <span className="group-hover:text-white/80">STORIES</span>
-                <span className={heroUnderline} />
-              </button>
-            </div>
+  const links: { label: string; to: string; hideOn?: string }[] = [
+    { label: "Journey", to: "/journey" },
+    { label: "Stories", to: "/stories", hideOn: "sm" },
+    { label: "About", to: "/about", hideOn: "sm" },
+    { label: "Contact", to: "/contact" },
+  ];
 
-          {/* Center logo absolutely centered */}
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <div
-              className="w-7 sm:w-8 md:w-20 cursor-pointer"
-              onClick={() => navigate("/")}
-            >
-              <img src={logo} alt="Logo" className="w-full h-auto" />
-            </div>
+  const handleNav = (to: string) => {
+    navigate(to);
+    setOpen(false);
+  };
+
+  return (
+    <nav className="w-full z-40 text-white  font-medium tracking-wide">
+      <div className="relative w-full py-10 px-6 sm:px-10 lg:px-14">
+        {/* Desktop Grid (md and up) for perfectly even spacing */}
+        <div className="hidden md:grid grid-cols-5 items-center mx-auto w-full">
+          {/* Col 1 */}
+          <div className="flex justify-center">
+            <button onClick={() => handleNav("/journey")} className={heroLinkBase}>
+              <span className="group-hover:text-white/80">JOURNEY</span>
+              <span className={heroUnderline} />
+            </button>
           </div>
-
-          {/* Right group */}
-          <div className="ml-auto flex items-center gap-16 lg:gap-24 text-[11px] sm:text-xs md:text-sm lg:text-base">
+          {/* Col 2 */}
+          <div className="flex justify-center">
+            <button onClick={() => handleNav("/stories")} className={heroLinkBase}>
+              <span className="group-hover:text-white/80">STORIES</span>
+              <span className={heroUnderline} />
+            </button>
+          </div>
+          {/* Col 3 (Logo) */}
+          <div className="flex justify-center">
             <button
-              onClick={() => navigate("/about")}
-              className={`${heroLinkBase} hidden sm:inline-block`}
+              onClick={() => handleNav("/")}
+              className="focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 rounded-md"
             >
+              <img
+                src={logo}
+                alt="Logo"
+                className="w-14 lg:w-20 h-auto drop-shadow-[0_0_10px_rgba(0,0,0,0.35)] hover:scale-[1.1] transition-transform ease-in-out duration-500"
+              />
+            </button>
+          </div>
+          {/* Col 4 */}
+          <div className="flex justify-center">
+            <button onClick={() => handleNav("/about")} className={heroLinkBase}>
               <span className="group-hover:text-white/80">ABOUT</span>
               <span className={heroUnderline} />
             </button>
-            <button onClick={() => navigate("/contact")} className={heroLinkBase}>
+          </div>
+            {/* Col 5 */}
+          <div className="flex justify-center">
+            <button onClick={() => handleNav("/contact")} className={heroLinkBase}>
               <span className="group-hover:text-white/80">CONTACT</span>
               <span className={heroUnderline} />
             </button>
           </div>
         </div>
-      </nav>
-    );
-  }
 
-  // Default mode (original app navbar)
-  return (
-    <div
-      className={`flex ${bgColor} flex-col md:flex-row justify-between items-center p-4 px-16 text-black-300`}
-    >
-      <div className="w-32 cursor-pointer" onClick={() => navigate("/")}>
-        <img src={logo} alt="Logo" className="w-full h-auto" />
-      </div>
-      <div
-        className={`flex justify-between items-center space-x-4 gap-3 md:my-0 my-5 font-semibold border ${borderColor} rounded-full px-12 py-2`}
-      >
-        <a onClick={() => navigate("/movies")} className={aStyles}>
-          Movies
-        </a>
-        <a className={aStyles}>TV Shows</a>
-        <a className={aStyles}>People</a>
-        <a className={aStyles}>More</a>
-      </div>
-      {user ? (
-        <div className="flex justify-between items-center space-x-3  font-semibold">
-          <Button styles="px-14" variant={variantButton} onClick={handleLogout}>
-            Logout
-          </Button>
+        {/* Mobile / small screens (under md) */}
+        <div className="flex md:hidden items-center justify-between w-full">
+          {/* Hamburger */}
+          <button
+            aria-label="Toggle navigation menu"
+            aria-expanded={open}
+            className="flex flex-col w-9 h-9 items-center justify-center gap-[6px] group"
+            onClick={() => setOpen(o => !o)}
+          >
+            <span
+              className={`h-0.5 w-7 bg-white transition-all duration-300 origin-left ${
+                open ? "rotate-45 translate-y-[7px]" : ""
+              }`}
+            />
+            <span
+              className={`h-0.5 w-7 bg-white transition-opacity duration-300 ${
+                open ? "opacity-0" : "opacity-100"
+              }`}
+            />
+            <span
+              className={`h-0.5 w-7 bg-white transition-all duration-300 origin-left ${
+                open ? "-rotate-45 -translate-y-[7px]" : ""
+              }`}
+            />
+          </button>
+          {/* Logo */}
+          <button onClick={() => handleNav("/")}> 
+            <img src={logo} alt="Logo" className="w-10 h-auto" />
+          </button>
+          {/* Placeholder to keep symmetry with hamburger width */}
+          <div className="w-9" />
         </div>
-      ) : (
-        <div className="flex justify-between items-center space-x-3  font-semibold">
-            <Button variant={variantButton} onClick={() => navigate("/login")}>
-              Login
-            </Button>
-            <Button variant={variantButton} onClick={() => navigate("/register")}>
-              Register
-            </Button>
+
+        {/* Mobile fullscreen menu */}
+        <div
+          className={`md:hidden fixed inset-0 z-30 bg-black/60 backdrop-blur-md transition-opacity duration-300 ${
+            open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          }`}
+          aria-hidden={!open}
+        >
+          <div
+            className={`absolute top-0 left-0 h-full w-3/4 max-w-xs bg-gradient-to-b from-[#0d253f]/95 via-[#121e2c]/95 to-black/90 shadow-xl transform transition-transform duration-300 ease-out ${
+              open ? "translate-x-0" : "-translate-x-full"
+            }`}
+          >
+            <div className="flex items-center justify-between px-6 pt-6 pb-4">
+              <img
+                src={logo}
+                alt="Logo"
+                className="w-10 cursor-pointer"
+                onClick={() => handleNav("/")}
+              />
+              <button
+                aria-label="Close navigation menu"
+                onClick={() => setOpen(false)}
+                className="p-2 rounded-full hover:bg-white/10 active:scale-95 transition"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  fill="none"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 6l12 12M6 18L18 6"
+                  />
+                </svg>
+              </button>
+            </div>
+            <ul className="mt-2 flex flex-col gap-2 px-4">
+              {links.map(l => (
+                <li key={l.label}>
+                  <button
+                    onClick={() => handleNav(l.to)}
+                    className="w-full text-left px-4 py-3 rounded-lg uppercase tracking-widest text-sm font-medium text-white/85 hover:bg-white/10 active:bg-white/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/70 transition"
+                  >
+                    {l.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-auto absolute bottom-0 left-0 right-0 p-6 text-[10px] tracking-widest text-white/40">
+              <p>© {new Date().getFullYear()} MovieApp</p>
+            </div>
+          </div>
         </div>
-      )}
-    </div>
+      </div>
+    </nav>
   );
 }

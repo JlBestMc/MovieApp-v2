@@ -81,14 +81,10 @@ const LoginPage = () => {
 
   return (
     <>
-      <Navbar
-        bgColor="bg-[#0d253f]"
-        aStyles="cursor-pointer hover:bg-gradient-to-r hover:from-[#90cea1] hover:to-[#01b4e4] hover:bg-clip-text hover:text-transparent text-white"
-        logo={logo2}
-        borderColor="border-white"
-        variantButton="quaternary"
+    <div className="bg-[url('@/assets/Background.png')] bg-cover bg-no-repeat bg-center min-h-screen">
+      <Navbar logo={logo2}
       />
-      <div className="bg-[url('@/assets/Rectangle.jpg')] bg-cover bg-center items-center justify-center min-h-screen flex h-full bg-fixed bg-no-repeat">
+      <div className=" bg-cover bg-center items-center justify-center min-h-screen flex h-full bg-fixed bg-no-repeat">
         <form onSubmit={handleLogin}>
           <div className="relative py-3 sm:max-w-xl sm:mx-auto">
             <div className="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow rounded-3xl sm:p-10">
@@ -233,6 +229,7 @@ const LoginPage = () => {
             </div>
           </div>
         </form>
+      </div>
       </div>
     </>
   );
