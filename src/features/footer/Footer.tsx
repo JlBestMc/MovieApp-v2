@@ -7,7 +7,7 @@ export const Footer: React.FC = () => {
   const { user } = useAuth();
 
   return (
-    <footer className="relative isolate bg-[url('@/assets/bg3.png')] border-20 border-white bg-cover bg-center text-white min-h-[360px] py-12 pt-24">
+    <footer className="relative isolate bg-[url('@/assets/bg3.png')] bg-cover bg-center text-white min-h-[360px] py-10 pt-18">
       {/* Overlay para mejorar contraste */}
       <div
         className="absolute inset-0 -z-10 bg-gradient-to-b from-black/40 via-black/60 to-black/85"
@@ -110,7 +110,9 @@ export const Footer: React.FC = () => {
         {/* Línea inferior / meta */}
         <div className="mt-12 w-full border-t border-white/15 pt-4 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white/60">
           <p>© {new Date().getFullYear()} MovieApp. All rights reserved.</p>
-          <p className="tracking-widest uppercase text-[10px]">Explore • Discover • Enjoy</p>
+          <p className="tracking-widest uppercase text-[10px]">
+            Explore • Discover • Enjoy
+          </p>
         </div>
       </div>
     </footer>
