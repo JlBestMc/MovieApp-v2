@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { fetchMovieDetails } from "@/config/tmdb";
 import Navbar from "@/features/header/components/navbar/Navbar";
-import logo2 from "@/assets/logo2.svg";
+import logo2 from "@/assets/white-logo.svg";
 import { Bookmark } from "lucide-react";
 import { List } from "lucide-react";
 import { Heart } from "lucide-react";
@@ -127,11 +127,7 @@ export default function MovieDetailsPage() {
   return (
     <>
       <Navbar
-        bgColor="bg-[#0d253f]"
-        aStyles="cursor-pointer hover:bg-gradient-to-r hover:from-[#90cea1] hover:to-[#01b4e4] hover:bg-clip-text hover:text-transparent text-white"
         logo={logo2}
-        borderColor="border-white"
-        variantButton="quaternary"
       />
       <div
         className="min-h-screen text-white relative"

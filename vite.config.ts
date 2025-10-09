@@ -6,7 +6,7 @@ import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: "/S7.-MovieApp/",
+  base: "/MovieApp-v2/",
   resolve: {
     alias: {
       "@": "/src",

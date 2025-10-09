@@ -5,7 +5,7 @@ import MovieCard from "../../components/Card/MovieCard";
 import { useEffect, useRef } from "react";
 import type { Movie } from "../../types/movieTypes";
 import Navbar from "../../features/header/components/navbar/Navbar";
-import logo2 from "../../assets/logo2.svg";
+import logo2 from "../../assets/white-logo.svg";
 
 export default function MoviePage() {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
@@ -43,11 +43,7 @@ export default function MoviePage() {
     <>
       <div className="bg-[url('@/assets/Rectangle.jpg')] bg-cover bg-center h-full bg-fixed bg-no-repeat">
         <Navbar
-          bgColor="bg-[#0d253f]"
-          aStyles="cursor-pointer hover:bg-gradient-to-r hover:from-[#90cea1] hover:to-[#01b4e4] hover:bg-clip-text hover:text-transparent text-white"
           logo={logo2}
-          borderColor="border-white"
-          variantButton="quaternary"
         />
         <div className="grid grid-cols-2 md:grid-cols-5 md:mx-16 mx-6 gap-6 mt-8">
           {data?.pages.map((page) =>

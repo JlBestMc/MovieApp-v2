@@ -14,18 +14,17 @@ export default function Main() {
       <Navbar logo={logoDark}/>
 
       {/* Overlay to improve text readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/30" aria-hidden="true" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.2),rgba(0,0,0,0.1),rgba(0,0,0,0.01),rgba(0,0,0,0.01),rgba(0,0,0,0.9))]" aria-hidden="true" />
 
       {/* Hero Content */}
       <div className="relative flex flex-col items-center text-center mt-22 px-4 max-w-3xl">
-        <h1 className="font-light text-4xl sm:text-5xl md:text-6xl leading-tight">
-          <span className="font-light">Choose your path,</span>
+        <h1 className="font-light text-4xl sm:text-5xl md:text-7xl leading-tight">
+          <span className="font-light">Millions of movies</span>
           <br />
-          <span className="italic font-serif font-medium">find your way</span>
+          <span className="italic font-serif font-medium">and actors to discover</span>
         </h1>
-        <p className="mt-6 text-base sm:text-lg text-white/85 max-w-2xl">
-          Good things take time. We're here for the details, the rhythm, and
-          the quiet in-between.
+        <p className="mt-6 text-base font-normal sm:text-lg text-white/85 max-w-2xl">
+          Explore the vast amount of information you didn't know about your favorite movies and actors.
         </p>
         <div className="mt-10">
           {user ? (

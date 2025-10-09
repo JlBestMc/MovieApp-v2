@@ -35,7 +35,7 @@ export const Button: React.FC<ButtonProps> = ({
     quaternary:
       "bg-gradient-to-r from-[#90cea1] to-[#01b4e4] text-white hover:from-transparent hover:to-transparent hover:border-cyan-300 border-[#0d253f] border",
     hero:
-      "bg-white text-gray-800 shadow-md shadow-black/20 hover:shadow-lg hover:bg-white/90 px-8 py-3 text-base font-medium",
+      "bg-white text-gray-800 shadow-lg shadow-black/30 hover:shadow-xl hover:bg-white/90 px-8 py-3 text-base font-medium  hover:scale-[1.12] transition-transform ease-in-out duration-300",
   };
 
   return (

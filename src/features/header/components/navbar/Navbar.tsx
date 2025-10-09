@@ -1,5 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useAuth } from "../../../../auth/hooks/useAuth";
+import { auth } from "../../../../auth/firebase";
+import { signOut } from "firebase/auth";
 
 interface NavbarProps {
   logo: string;
@@ -8,6 +11,7 @@ interface NavbarProps {
 export default function Navbar({ logo }: NavbarProps) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const { user } = useAuth();
 
   // Disable scroll when mobile menu open
   useEffect(() => {
@@ -26,16 +30,25 @@ export default function Navbar({ logo }: NavbarProps) {
   const heroUnderline =
     "absolute left-0 -bottom-1 h-0.5 w-0 bg-white transition-all duration-300 group-hover:w-full";
 
-  const links: { label: string; to: string; hideOn?: string }[] = [
-    { label: "Journey", to: "/journey" },
-    { label: "Stories", to: "/stories", hideOn: "sm" },
-    { label: "About", to: "/about", hideOn: "sm" },
-    { label: "Contact", to: "/contact" },
+  const baseLinks: { label: string; to: string }[] = [
+    { label: "Movies", to: "/journey" },
+    { label: "TV Shows", to: "/stories" },
+    { label: "Actors", to: "/about" },
   ];
 
   const handleNav = (to: string) => {
     navigate(to);
     setOpen(false);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setOpen(false);
+      navigate("/");
+    } catch (err) {
+      console.warn("Logout failed", err);
+    }
   };
 
   return (
@@ -46,14 +59,14 @@ export default function Navbar({ logo }: NavbarProps) {
           {/* Col 1 */}
           <div className="flex justify-center">
             <button onClick={() => handleNav("/journey")} className={heroLinkBase}>
-              <span className="group-hover:text-white/80">JOURNEY</span>
+              <span className="group-hover:text-white/80">MOVIES</span>
               <span className={heroUnderline} />
             </button>
           </div>
           {/* Col 2 */}
           <div className="flex justify-center">
             <button onClick={() => handleNav("/stories")} className={heroLinkBase}>
-              <span className="group-hover:text-white/80">STORIES</span>
+              <span className="group-hover:text-white/80">TV SHOWS</span>
               <span className={heroUnderline} />
             </button>
           </div>
@@ -73,17 +86,24 @@ export default function Navbar({ logo }: NavbarProps) {
           {/* Col 4 */}
           <div className="flex justify-center">
             <button onClick={() => handleNav("/about")} className={heroLinkBase}>
-              <span className="group-hover:text-white/80">ABOUT</span>
+              <span className="group-hover:text-white/80">ACTORS</span>
               <span className={heroUnderline} />
             </button>
           </div>
-            {/* Col 5 */}
-          <div className="flex justify-center">
-            <button onClick={() => handleNav("/contact")} className={heroLinkBase}>
-              <span className="group-hover:text-white/80">CONTACT</span>
-              <span className={heroUnderline} />
-            </button>
-          </div>
+            {/* Col 5: Register or Logout */}
+            <div className="flex justify-center">
+              {user ? (
+                <button onClick={handleLogout} className={heroLinkBase}>
+                  <span className="group-hover:text-white/80">LOGOUT</span>
+                  <span className={heroUnderline} />
+                </button>
+              ) : (
+                <button onClick={() => handleNav("/register")} className={heroLinkBase}>
+                  <span className="group-hover:text-white/80">REGISTER</span>
+                  <span className={heroUnderline} />
+                </button>
+              )}
+            </div>
         </div>
 
         {/* Mobile / small screens (under md) */}
@@ -160,7 +180,7 @@ export default function Navbar({ logo }: NavbarProps) {
               </button>
             </div>
             <ul className="mt-2 flex flex-col gap-2 px-4">
-              {links.map(l => (
+              {baseLinks.map(l => (
                 <li key={l.label}>
                   <button
                     onClick={() => handleNav(l.to)}
@@ -170,12 +190,31 @@ export default function Navbar({ logo }: NavbarProps) {
                   </button>
                 </li>
               ))}
+              <li>
+                {user ? (
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-3 rounded-lg uppercase tracking-widest text-sm font-semibold text-red-300 hover:bg-red-500/10 active:bg-red-500/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400/70 transition"
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => handleNav("/register")}
+                    className="w-full text-left px-4 py-3 rounded-lg uppercase tracking-widest text-sm font-semibold text-cyan-300 hover:bg-cyan-500/10 active:bg-cyan-500/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/70 transition"
+                  >
+                    Register
+                  </button>
+                )}
+              </li>
             </ul>
             <div className="mt-auto absolute bottom-0 left-0 right-0 p-6 text-[10px] tracking-widest text-white/40">
               <p>© {new Date().getFullYear()} MovieApp</p>
             </div>
           </div>
         </div>
+
+       
       </div>
     </nav>
   );

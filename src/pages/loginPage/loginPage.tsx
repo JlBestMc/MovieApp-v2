@@ -7,7 +7,7 @@ import {
 import { auth } from "../../auth/firebase";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../features/header/components/navbar/Navbar";
-import logo2 from "../../assets/logo2.svg";
+import logo2 from "../../assets/white-logo.svg";
 import darklogo from "../../assets/logo-dark.svg";
 import { FirebaseError } from "firebase/app";
 

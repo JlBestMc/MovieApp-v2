@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { fetchActorDetails, fetchActorMovies } from "@/config/tmdb";
 import Navbar from "@/features/header/components/navbar/Navbar";
-import logo2 from "@/assets/logo2.svg";
+import logo2 from "@/assets/white-logo.svg";
 
 interface ActorDetails {
   id: number;
@@ -95,11 +95,7 @@ export default function ActorDetailsPage() {
   return (
     <>
       <Navbar
-        bgColor="bg-[#0d253f]"
-        aStyles="cursor-pointer hover:bg-gradient-to-r hover:from-[#90cea1] hover:to-[#01b4e4] hover:bg-clip-text hover:text-transparent text-white"
         logo={logo2}
-        borderColor="border-white"
-        variantButton="quaternary"
       />
       <div className="min-h-screen bg-white text-black overflow-x-hidden">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 max-w-7xl">

@@ -3,7 +3,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../auth/firebase";
 import { FirebaseError } from "firebase/app";
 import { useNavigate } from "react-router-dom";
-import logo2 from "../../assets/logo2.svg";
+import logo2 from "../../assets/white-logo.svg";
 import Navbar from "../../features/header/components/navbar/Navbar";
 import darklogo from "../../assets/logo-dark.svg";
 
@@ -50,11 +50,7 @@ const RegisterPage = () => {
   return (
     <>
       <Navbar
-        bgColor="bg-[#0d253f]"
-        aStyles="cursor-pointer hover:bg-gradient-to-r hover:from-[#90cea1] hover:to-[#01b4e4] hover:bg-clip-text hover:text-transparent text-white"
         logo={logo2}
-        borderColor="border-white"
-        variantButton="quaternary"
       />
       <div className="bg-[url('@/assets/Rectangle.jpg')] bg-cover bg-center items-center justify-center min-h-screen flex h-full bg-fixed bg-no-repeat">
         <form onSubmit={handleRegister}>
