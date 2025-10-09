@@ -34,14 +34,6 @@ export default function Main() {
           )}
         </div>
       </div>
-
-      {/* Corner captions */}
-      <div className="absolute bottom-6 left-6 text-xs sm:text-sm text-white/85 tracking-wide">
-        [Some paths aren't meant to be rushed]
-      </div>
-      <div className="absolute bottom-6 right-6 text-xs sm:text-sm text-white/85 tracking-wide flex items-center gap-2">
-        <span className="text-lg leading-none">•</span> [Rhythms of 2025]
-      </div>
     </div>
   );
 }
