@@ -107,7 +107,7 @@ export const Footer: React.FC = () => {
           </div>
         </div>
         <div className="mt-12 w-full border-t border-white/15 pt-4 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white/60">
-          <p>© {new Date().getFullYear()} MovieApp. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} TMDB MovieApp. Juan Luis Rodriguez Chavarria.</p>
           <p className="tracking-widest uppercase text-[10px]">
             Explore • Discover • Enjoy
           </p>

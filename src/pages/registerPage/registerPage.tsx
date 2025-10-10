@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../auth/firebase";
 import { FirebaseError } from "firebase/app";
 import { useNavigate } from "react-router-dom";
-import logo2 from "../../assets/white-logo.svg";
-import Navbar from "../../features/header/components/navbar/Navbar";
-import darklogo from "../../assets/logo-dark.svg";
+import { PATHS } from "@/routes/paths";
+import darklogo from "../../assets/black-logo.svg";
+import rotateVid from "@/assets/a.mp4";
+import usePlaybackRate from "@/hooks/usePlaybackRate";
 
 const RegisterPage = () => {
   const [name, setName] = useState("");
@@ -13,6 +14,8 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const videoRef = useRef<HTMLVideoElement>(null);
+  usePlaybackRate(videoRef, 0.7);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,7 +27,7 @@ const RegisterPage = () => {
         password
       );
       await updateProfile(userCredential.user, { displayName: name });
-      navigate("/");
+  navigate(PATHS.root);
     } catch (err) {
       let message = "Error al registrar el usuario.";
       if (err instanceof FirebaseError) {
@@ -49,85 +52,108 @@ const RegisterPage = () => {
 
   return (
     <>
-      <Navbar
-        logo={logo2}
-      />
-      <div className="bg-[url('@/assets/Rectangle.jpg')] bg-cover bg-center items-center justify-center min-h-screen flex h-full bg-fixed bg-no-repeat">
-        <form onSubmit={handleRegister}>
-          <div className="relative py-3 sm:max-w-xl sm:mx-auto">
-            <div className="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow rounded-3xl sm:p-10">
-              <div className="max-w-md mx-auto">
-                <div className="flex items-center space-x-5 justify-center">
-                  <img src={darklogo} alt="Logo" className="h-16" />
+      <div className="relative min-h-screen bg-[url('@/assets/bg11.png')] bg-cover bg-no-repeat bg-center">
+        <div className="min-h-screen flex items-center justify-center px-4 py-10 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.2),rgba(0,0,0,0.1),rgba(0,0,0,0.01),rgba(0,0,0,0.01),rgba(0,0,0,0.8))]">
+          <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-0 rounded-2xl overflow-hidden shadow-2xl">
+            {/* Left: Form card */}
+            <div className="bg-[#f6f7f3]/90 dark:bg-white/95 backdrop-blur-md p-8 sm:p-12">
+              <form onSubmit={handleRegister} className="max-w-md mx-auto">
+                {/* Logo */}
+                <div className="flex items-center justify-center mb-8">
+                  <img src={darklogo} alt="Logo" onClick={() => navigate(PATHS.root)} className="h-12 cursor-pointer hover:scale-[1.1] transition-transform ease-in-out duration-500" />
                 </div>
-                <div className="mt-5">
-                  {error && <p className="text-red-500 mb-2">{error}</p>}
-                  <label
-                    className="font-semibold text-md text-gray-600 pb-1 block"
-                    htmlFor="name"
-                  >
-                    Name
-                  </label>
+                {/* Heading */}
+                <h1 className="text-3xl sm:text-4xl font-semibold text-gray-900 text-center">Create your account</h1>
+                <p className="mt-2 text-center text-gray-500">Start your journey with us today.</p>
+
+                {error && <p className="text-red-500 mt-4 text-center text-sm">{error}</p>}
+
+                {/* Name */}
+                <div className="mt-8">
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="name">Name</label>
                   <input
+                    id="name"
                     type="text"
-                    placeholder="Name"
+                    placeholder="Your full name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                    className="w-full rounded-full border border-gray-300 focus:border-black focus:ring-0 px-4 py-3 text-gray-900 placeholder-gray-400"
                     required
                   />
-                  <label
-                    className="font-semibold text-md text-gray-600 pb-1 block"
-                    htmlFor="email"
-                  >
-                    Email
-                  </label>
+                </div>
+
+                {/* Email */}
+                <div className="mt-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="email">Email</label>
                   <input
+                    id="email"
                     type="email"
-                    placeholder="Email"
+                    placeholder="Enter your email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                    className="w-full rounded-full border border-gray-300 focus:border-black focus:ring-0 px-4 py-3 text-gray-900 placeholder-gray-400"
                     required
                   />
-                  <label
-                    className="font-semibold text-md text-gray-600 pb-1 block"
-                    htmlFor="password"
-                  >
-                    Password
-                  </label>
+                </div>
+
+                {/* Password */}
+                <div className="mt-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="password">Password</label>
                   <input
+                    id="password"
                     type="password"
-                    placeholder="Password"
+                    placeholder="Create a password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full"
+                    className="w-full rounded-full border border-gray-300 focus:border-black focus:ring-0 px-4 py-3 text-gray-900 placeholder-gray-400"
                     required
                   />
                 </div>
-                <div className="flex justify-center w-full items-center"></div>
-                <div className="mt-5">
+
+                {/* Primary CTA */}
+                <button
+                  className="mt-6 w-full rounded-full bg-black text-white py-3 font-medium hover:bg-black/90 transition"
+                  type="submit"
+                >
+                  Create account
+                </button>
+
+                {/* Divider */}
+                <div className="my-6 flex items-center gap-4 text-xs text-gray-400">
+                  <span className="flex-1 h-px bg-gray-200" />
+                  Or
+                  <span className="flex-1 h-px bg-gray-200" />
+                </div>
+
+                {/* Bottom helper */}
+                <div className="text-xs text-gray-500 flex items-center justify-center gap-2">
+                  <span>Already have an account?</span>
                   <button
-                    className="py-2 px-35 w-full cursor-pointer bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 focus:ring-offset-blue-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg"
-                    type="submit"
+                    type="button"
+                    className="underline underline-offset-4 hover:text-gray-700"
+                    onClick={() => navigate(PATHS.login)}
                   >
-                    Sign up
+                    Log in
                   </button>
                 </div>
-                <div className="flex items-center justify-between mt-4">
-                  <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4"></span>
-                  <a
-                    className="text-xs text-gray-500 uppercase dark:text-gray-400 hover:underline"
-                    href="/login"
-                  >
-                    or sign in
-                  </a>
-                  <span className="w-1/5 border-b dark:border-gray-400 md:w-1/4"></span>
-                </div>
-              </div>
+              </form>
+            </div>
+
+            {/* Right: Video panel */}
+            <div className="relative bg-white/10 backdrop-blur-md">
+              <video
+                className="h-full w-full object-cover"
+                src={rotateVid}
+                autoPlay
+                muted
+                loop
+                playsInline
+                ref={videoRef}
+              />
+              <div className="pointer-events-none absolute inset-0 ring-1 ring-white/20" />
             </div>
           </div>
-        </form>
+        </div>
       </div>
     </>
   );

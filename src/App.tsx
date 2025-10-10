@@ -8,6 +8,7 @@ import { AuthProvider } from "./auth/context/AuthContext";
 import WelcomePage from "./pages/welcomePage/WelcomePage";
 import Footer from "./features/footer/Footer";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import { PATHS } from "./routes/paths";
 
 function App() {
   return (
@@ -15,20 +16,20 @@ function App() {
       <HashRouter>
         <Routes>
           {/* Ruta raíz y welcome */}
-          <Route path="/" element={<WelcomePage />} />
-          <Route path="/welcome" element={<WelcomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+          <Route path={PATHS.root} element={<WelcomePage />} />
+          <Route path={PATHS.welcome} element={<WelcomePage />} />
+          <Route path={PATHS.login} element={<LoginPage />} />
+          <Route path={PATHS.register} element={<RegisterPage />} />
           <Route
-            path="/movies"
+            path={PATHS.movies}
             element={
               <ProtectedRoute>
                 <MoviePage />
               </ProtectedRoute>
-            }
+            } 
           />
           <Route
-            path="/movie/:id"
+            path={PATHS.movie(":id")}
             element={
               <ProtectedRoute>
                 <MovieDetailPage />
@@ -36,7 +37,7 @@ function App() {
             }
           />
           <Route
-            path="/actor/:id"
+            path={PATHS.actor(":id")}
             element={
               <ProtectedRoute>
                 <ActorDetailsPage />
