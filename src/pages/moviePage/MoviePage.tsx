@@ -2,6 +2,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchPopularMovies } from "../../config/tmdb";
 import MovieCard from "../../components/Card/MovieCard";
+import FadeInOnScroll from "../../components/animations/FadeInOnScroll";
 import { useEffect, useRef } from "react";
 import type { Movie } from "../../types/movieTypes";
 import Navbar from "../../features/header/components/navbar/Navbar";
@@ -41,14 +42,25 @@ export default function MoviePage() {
 
   return (
     <>
-      <div className="bg-[url('@/assets/Rectangle.jpg')] bg-cover bg-center h-full bg-fixed bg-no-repeat">
-        <Navbar
-          logo={logo2}
-        />
-        <div className="grid grid-cols-2 md:grid-cols-5 md:mx-16 mx-6 gap-6 mt-8">
+      <div className="bg-[url('@/assets/5.png')] bg-cover bg-center h-full bg-fixed bg-no-repeat">
+        <Navbar logo={logo2} />
+        {/* Page header */}
+        <div className="md:mx-16 mx-6 mt-5 flex justify-center flex-col items-center">
+          <h1 className="text-3xl md:text-5xl pb-5 font-semibold bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
+            Popular Movies
+          </h1>
+          <p className="text-white/70 text-sm md:text-base lg:text-lg pb-5">
+            Explore the trends and hits of the moment. Enjoy the best cinema.
+          </p>
+        </div>
+        {/* subtle vignette */}
+        
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:mx-16 mx-6 gap-6 mt-8">
           {data?.pages.map((page) =>
-            page.results.map((movie: Movie) => (
-              <MovieCard key={movie.id} movie={movie} />
+            page.results.map((movie: Movie, idx: number) => (
+              <FadeInOnScroll key={movie.id} delayMs={(idx % 10) * 50}>
+                <MovieCard movie={movie} />
+              </FadeInOnScroll>
             ))
           )}
           <div ref={loadMoreRef} className="h-10 col-span-full" />

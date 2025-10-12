@@ -81,12 +81,9 @@ export default function MovieDetailsPage() {
       </div>
     );
 
-  const getDirector = () => {
-    return (
-      movie.credits?.crew?.find((person) => person.job === "Director")?.name ||
-      "N/A"
-    );
-  };
+  const getDirector = () =>
+    movie.credits?.crew?.find((person) => person.job === "Director")?.name ||
+    "N/A";
 
   const getWriter = () => {
     const writerJobs = [
@@ -99,16 +96,12 @@ export default function MovieDetailsPage() {
     const writer = movie.credits?.crew?.find((person) =>
       writerJobs.includes(person.job)
     );
-
     return writer?.name || "N/A";
   };
 
-  const getProducer = () => {
-    return (
-      movie.credits?.crew?.find((person) => person.job === "Producer")?.name ||
-      "N/A"
-    );
-  };
+  const getProducer = () =>
+    movie.credits?.crew?.find((person) => person.job === "Producer")?.name ||
+    "N/A";
 
   const formatRuntime = (minutes: number) => {
     const hours = Math.floor(minutes / 60);
@@ -116,19 +109,19 @@ export default function MovieDetailsPage() {
     return `${hours}h ${mins}m`;
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("es-ES", {
+  const formatDate = (dateString: string) =>
+    new Date(dateString).toLocaleDateString("es-ES", {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
     });
-  };
+
+  const releaseYear = movie.release_date?.split("-")[0];
+  const userScore = Math.round(movie.vote_average * 10);
+  const donutAngle = Math.round((userScore / 100) * 360);
 
   return (
     <>
-      <Navbar
-        logo={logo2}
-      />
       <div
         className="min-h-screen text-white relative"
         style={{
@@ -137,104 +130,110 @@ export default function MovieDetailsPage() {
           backgroundPosition: "center",
         }}
       >
-        <div className="container mx-auto px-8 py-16">
-          <div className="flex flex-col lg:flex-row gap-8">
-            <div className="flex-shrink-0">
-              <img
-                src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-                alt={movie.title}
-                className="rounded-lg shadow-2xl w-80 h-full"
-              />
-            </div>
+        <Navbar logo={logo2} />
 
-            <div className="flex-1">
-              <h1 className="text-4xl lg:text-5xl font-bold mb-2">
-                {movie.title}{" "}
-                <span className="text-gray-300 font-normal">
-                  ({movie.release_date?.split("-")[0]})
-                </span>
-              </h1>
-
-              <div className="flex flex-wrap items-center gap-2 mb-4 text-sm">
-                <span className="border border-gray-400 px-2 py-1 rounded">
-                  {movie.status === "Released" ? "12" : "NR"}
-                </span>
-                <span>{formatDate(movie.release_date)}</span>
-                <span>•</span>
-                <span>
-                  {movie.genres?.map((genre) => genre.name).join(", ")}
-                </span>
-                <span>•</span>
-                <span>{formatRuntime(movie.runtime)}</span>
+        <div className="container mx-auto px-6 md:px-8 pb-16 pt-6">
+          <div className="rounded-2xl ring-1 ring-white/10 p-6 md:p-8 shadow-xl border border-white/10 bg-black/20 backdrop-blur-xs">
+            <div className="flex flex-col lg:flex-row gap-8">
+              <div className="flex-shrink-0">
+                <img
+                  src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+                  alt={movie.title}
+                  className="rounded-2xl shadow-2xl w-72 md:w-80 h-full ring-1 ring-white/20"
+                />
               </div>
 
-              <div className="flex items-center gap-4 mb-6">
-                <div className="flex items-center">
-                  <div className="w-16 h-16 rounded-full border-4 border-green-500 flex items-center justify-center bg-black">
-                    <span className="text-white font-bold text-sm">
-                      {Math.round(movie.vote_average * 10)}%
-                    </span>
+              <div className="flex-1">
+                <h1 className="text-3xl md:text-4xl font-semibold mb-3 bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent tracking-wide">
+                  {movie.title}
+                  <span className="ml-2 text-white/70 font-normal">
+                    ({releaseYear})
+                  </span>
+                </h1>
+
+                <div className="flex flex-wrap items-center gap-3 mb-5 text-sm">
+                  <span className="rounded border border-white/20 bg-white/10 px-2 py-1 text-white/80 backdrop-blur-sm">
+                    {movie.status === "Released" ? "PG-13" : "NR"}
+                  </span>
+                  <span className="text-white/80">{formatDate(movie.release_date)}</span>
+                  <span className="text-white/40">•</span>
+                  <div className="flex flex-wrap gap-2">
+                    {movie.genres?.map((genre) => (
+                      <span
+                        key={genre.id}
+                        className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs text-white/85 backdrop-blur-sm"
+                      >
+                        {genre.name}
+                      </span>
+                    ))}
                   </div>
-                  <div className="ml-3">
-                    <p className="text-white font-semibold">User</p>
-                    <p className="text-white font-semibold">Score</p>
+                  <span className="text-white/40">•</span>
+                  <span className="text-white/80">{formatRuntime(movie.runtime)}</span>
+                </div>
+
+                <div className="flex items-center gap-6 mb-6">
+                  <div className="flex items-center gap-3">
+                    <div
+                      className="relative h-16 w-16 rounded-full p-1"
+                      style={{
+                        background: `conic-gradient(#22c55e ${donutAngle}deg, rgba(255,255,255,0.12) 0deg)`,
+                      }}
+                    >
+                      <div className="absolute inset-1 rounded-full bg-black/70 flex items-center justify-center ring-1 ring-white/10">
+                        <span className="text-white font-semibold text-sm">{userScore}%</span>
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-white font-semibold leading-none">User Score</p>
+                      <p className="text-white/60 text-xs leading-none mt-1">Puntuación media</p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <button
+                      aria-label="Add to list"
+                      className="w-10 h-10 rounded-full bg-white/10 ring-1 ring-white/15 flex items-center justify-center hover:bg-white/20 transition backdrop-blur-sm"
+                    >
+                      <List size={18} />
+                    </button>
+                    <button
+                      aria-label="Mark as favorite"
+                      className="w-10 h-10 rounded-full bg-white/10 ring-1 ring-white/15 flex items-center justify-center hover:bg-white/20 transition backdrop-blur-sm"
+                    >
+                      <Heart size={18} />
+                    </button>
+                    <button
+                      aria-label="Bookmark"
+                      className="w-10 h-10 rounded-full bg-white/10 ring-1 ring-white/15 flex items-center justify-center hover:bg-white/20 transition backdrop-blur-sm"
+                    >
+                      <Bookmark size={18} />
+                    </button>
                   </div>
                 </div>
 
-                <div className="flex gap-2">
-                  <span className="w-10 h-10 text-3xl cursor-pointer hover:scale-125 bg-[#00000055] rounded-full transition-transform ">
-                    😍
-                  </span>
-                  <span className="w-10 h-10 text-3xl cursor-pointer hover:scale-125 bg-[#00000055] rounded-full transition-transform ">
-                    😊
-                  </span>
-                  <span className="w-10 h-10 text-3xl cursor-pointer hover:scale-125 bg-[#00000055] rounded-full transition-transform ">
-                    😐
-                  </span>
+                {movie.tagline && (
+                  <p className="text-white/80 italic text-lg mb-4">“{movie.tagline}”</p>
+                )}
+
+                <div className="mb-6">
+                  <h3 className="text-xl font-semibold mb-2">Overview</h3>
+                  <div className="h-1 w-16 rounded-full bg-white mb-3" />
+                  <p className="text-white/90 leading-relaxed">{movie.overview}</p>
                 </div>
-              </div>
 
-              <div className="flex gap-4 mb-6">
-                <button className="w-10 h-10 bg-[#0d253f] rounded-full flex items-center justify-center hover:bg-gray-700">
-                  <span className="text-white">
-                    <List size={20} />
-                  </span>
-                </button>
-                <button className="w-10 h-10 bg-[#0d253f] rounded-full flex items-center justify-center hover:bg-gray-700">
-                  <span className="text-white">
-                    <Heart size={20} />
-                  </span>
-                </button>
-                <button className="w-10 h-10 bg-[#0d253f] rounded-full flex items-center justify-center hover:bg-gray-700">
-                  <span className="text-white">
-                    <Bookmark size={20} />
-                  </span>
-                </button>
-              </div>
-
-              <p className="text-gray-300 italic text-lg mb-4">
-                {movie.tagline}
-              </p>
-
-              <div className="mb-6">
-                <h3 className="text-xl font-semibold mb-2">Overview</h3>
-                <p className="text-gray-200 leading-relaxed">
-                  {movie.overview}
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div>
-                  <p className="font-semibold text-white">{getDirector()}</p>
-                  <p className="text-gray-400 text-sm">Director</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-white">{getWriter()}</p>
-                  <p className="text-gray-400 text-sm">Writer</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-white">{getProducer()}</p>
-                  <p className="text-gray-400 text-sm">Producer</p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="rounded-lg bg-white/10 ring-1 ring-white/10 p-4">
+                    <p className="font-semibold text-white">{getDirector()}</p>
+                    <p className="text-white/60 text-sm">Director</p>
+                  </div>
+                  <div className="rounded-lg bg-white/10 ring-1 ring-white/10 p-4">
+                    <p className="font-semibold text-white">{getWriter()}</p>
+                    <p className="text-white/60 text-sm">Writer</p>
+                  </div>
+                  <div className="rounded-lg bg-white/10 ring-1 ring-white/10 p-4">
+                    <p className="font-semibold text-white">{getProducer()}</p>
+                    <p className="text-white/60 text-sm">Producer</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -243,7 +242,7 @@ export default function MovieDetailsPage() {
           <div className="mt-16">
             <h2 className="text-2xl font-semibold mb-6">Top Billed Cast</h2>
             <div
-              className="flex gap-4 overflow-x-auto pb-4 pl-2 pt-2"
+              className="relative flex gap-4 overflow-x-auto pb-4 pl-2 pt-2"
               style={{
                 scrollbarWidth: "thin",
                 scrollbarColor: "rgba(255, 255, 255, 0.5) transparent",
@@ -279,3 +278,4 @@ export default function MovieDetailsPage() {
     </>
   );
 }
+

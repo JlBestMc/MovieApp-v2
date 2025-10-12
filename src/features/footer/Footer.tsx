@@ -1,7 +1,7 @@
-import logoXL from "@/assets/white-logo.svg";
 import Button from "../../components/Button/Button";
 import { useAuth } from "../../auth/hooks/useAuth";
 import { Link } from "react-router-dom";
+import Logo from "@/components/Logo/Logo";
 
 export const Footer: React.FC = () => {
   const { user } = useAuth();
@@ -15,7 +15,7 @@ export const Footer: React.FC = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 justify-items-center">
           <div className="flex flex-col justify-center items-center">
-            <img src={logoXL} alt="MovieApp Logo" className="mb-8 w-32" />
+            <Logo width="lg:w-32" styles="mb-8" />
             <Link to={user ? "/movies" : "/login"}>
               <Button variant="hero" styles="hover:text-black">
                 {user ? (

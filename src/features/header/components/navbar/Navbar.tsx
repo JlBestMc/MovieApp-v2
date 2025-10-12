@@ -6,9 +6,10 @@ import { signOut } from "firebase/auth";
 
 interface NavbarProps {
   logo: string;
+  bgColor?: string;
 }
 
-export default function Navbar({ logo }: NavbarProps) {
+export default function Navbar({ logo, bgColor }: NavbarProps) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const { user } = useAuth();
@@ -52,20 +53,20 @@ export default function Navbar({ logo }: NavbarProps) {
   };
 
   return (
-    <nav className="w-full z-40 text-white  font-medium tracking-wide">
+    <nav className={`w-full z-40 text-white ${bgColor} font-medium tracking-wide`}>
       <div className="relative w-full py-10 px-6 sm:px-10 lg:px-14">
         {/* Desktop Grid (md and up) for perfectly even spacing */}
         <div className="hidden md:grid grid-cols-5 items-center mx-auto w-full">
           {/* Col 1 */}
           <div className="flex justify-center">
-            <button onClick={() => handleNav("/journey")} className={heroLinkBase}>
+            <button onClick={() => handleNav("/movies")} className={heroLinkBase}>
               <span className="group-hover:text-white/80">MOVIES</span>
               <span className={heroUnderline} />
             </button>
           </div>
           {/* Col 2 */}
           <div className="flex justify-center">
-            <button onClick={() => handleNav("/stories")} className={heroLinkBase}>
+            <button onClick={() => handleNav("/movies")} className={heroLinkBase}>
               <span className="group-hover:text-white/80">TV SHOWS</span>
               <span className={heroUnderline} />
             </button>
@@ -85,7 +86,7 @@ export default function Navbar({ logo }: NavbarProps) {
           </div>
           {/* Col 4 */}
           <div className="flex justify-center">
-            <button onClick={() => handleNav("/about")} className={heroLinkBase}>
+            <button onClick={() => handleNav("/movies")} className={heroLinkBase}>
               <span className="group-hover:text-white/80">ACTORS</span>
               <span className={heroUnderline} />
             </button>
@@ -133,7 +134,7 @@ export default function Navbar({ logo }: NavbarProps) {
           </button>
           {/* Logo */}
           <button onClick={() => handleNav("/")}> 
-            <img src={logo} alt="Logo" className="w-10 h-auto" />
+            <img src={logo} alt="Logo" className="w-16 h-auto" />
           </button>
           {/* Placeholder to keep symmetry with hamburger width */}
           <div className="w-9" />

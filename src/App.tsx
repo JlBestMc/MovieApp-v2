@@ -9,11 +9,13 @@ import WelcomePage from "./pages/welcomePage/WelcomePage";
 import Footer from "./features/footer/Footer";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import { PATHS } from "./routes/paths";
+import ScrollToTop from "./routes/ScrollToTop";
 
 function App() {
   return (
     <AuthProvider>
       <HashRouter>
+        <ScrollToTop />
         <Routes>
           {/* Ruta raíz y welcome */}
           <Route path={PATHS.root} element={<WelcomePage />} />
