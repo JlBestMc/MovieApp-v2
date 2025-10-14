@@ -152,7 +152,7 @@ export default function Navbar({ logo, bgColor }: NavbarProps) {
               open ? "translate-x-0" : "-translate-x-full"
             }`}
           >
-            <div className="flex items-center justify-between px-6 pt-6 pb-4">
+            <div className="flex items-center justify-between pl-8 px-6 pt-6 pb-4">
               <img
                 src={logo}
                 alt="Logo"

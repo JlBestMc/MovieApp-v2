@@ -42,10 +42,10 @@ export default function MoviePage() {
 
   return (
     <>
-      <div className="bg-[url('@/assets/5.png')] bg-cover bg-center h-full bg-fixed bg-no-repeat">
+      <div className="bg-[url('@/assets/bg-mj.png')] bg-cover bg-center h-full bg-fixed bg-no-repeat">
         <Navbar logo={logo2} />
         {/* Page header */}
-        <div className="md:mx-16 mx-6 mt-5 flex justify-center flex-col items-center">
+        <div className="md:mx-16 mx-6 flex justify-center flex-col items-center">
           <h1 className="text-3xl md:text-5xl pb-5 font-semibold bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
             Popular Movies
           </h1>

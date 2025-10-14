@@ -133,7 +133,7 @@ export default function MovieDetailsPage() {
         <Navbar logo={logo2} />
 
         <div className="container mx-auto px-6 md:px-8 pb-16 pt-6">
-          <div className="rounded-2xl ring-1 ring-white/10 p-6 md:p-8 shadow-xl border border-white/10 bg-black/20 backdrop-blur-xs">
+          <div className="rounded-2xl ring-1 ring-white/5 p-6 md:p-8 shadow-xl border border-white/10 bg-black/20 backdrop-blur-xs">
             <div className="flex flex-col lg:flex-row gap-8">
               <div className="flex-shrink-0">
                 <img
@@ -144,7 +144,7 @@ export default function MovieDetailsPage() {
               </div>
 
               <div className="flex-1">
-                <h1 className="text-3xl md:text-4xl font-semibold mb-3 bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent tracking-wide">
+                <h1 className="text-3xl md:text-4xl font-semibold pb-6 bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent tracking-wide">
                   {movie.title}
                   <span className="ml-2 text-white/70 font-normal">
                     ({releaseYear})
@@ -222,15 +222,15 @@ export default function MovieDetailsPage() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="rounded-lg bg-white/10 ring-1 ring-white/10 p-4">
+                  <div className="rounded-lg bg-black/40 ring-1 ring-white/10 p-4">
                     <p className="font-semibold text-white">{getDirector()}</p>
                     <p className="text-white/60 text-sm">Director</p>
                   </div>
-                  <div className="rounded-lg bg-white/10 ring-1 ring-white/10 p-4">
+                  <div className="rounded-lg bg-black/40 ring-1 ring-white/10 p-4">
                     <p className="font-semibold text-white">{getWriter()}</p>
                     <p className="text-white/60 text-sm">Writer</p>
                   </div>
-                  <div className="rounded-lg bg-white/10 ring-1 ring-white/10 p-4">
+                  <div className="rounded-lg bg-black/40 ring-1 ring-white/10 p-4">
                     <p className="font-semibold text-white">{getProducer()}</p>
                     <p className="text-white/60 text-sm">Producer</p>
                   </div>
